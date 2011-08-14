@@ -1,76 +1,128 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset='utf-8'>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN"
+	"http://www.w3.org/TR/2001/REC-MathML2-20010221/dtd/xhtml-math11-f.dtd">
 
-  <title>beckchr/staxon @ GitHub</title>
-
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #7e1b54;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #81e4ab; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #81e4ab; }
-    h3 { text-align: center; color: #81e4ab; }
-    a { color: #81e4ab; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
-</head>
-
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<!-- Processed by MultiMarkdown -->
+		<meta name="Format" content="Complete" />
+	</head>
 <body>
-  <a href="http://github.com/beckchr/staxon"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 
-  <div id="container">
+<h1 id="staxon-jsonviastax">StAXON - JSON via StAX</h1>
 
-    <div class="download">
-      <a href="http://github.com/beckchr/staxon/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/beckchr/staxon/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
+<p><a href="http://beckchr.github.com/staxon/">StAXON</a> lets you read and write JSON using the Java Streaming API for XML.</p>
 
-    <h1><a href="http://github.com/beckchr/staxon">staxon</a>
-      <span class="small">by <a href="http://github.com/beckchr">beckchr</a></span></h1>
+<h2 id="mainfeatures">Main Features</h2>
 
-    <div class="description">
-      JSON via StAX
-    </div>
+<ul>
+<li>Supports <a href="http://jackson.codehaus.org/">Jackson</a> and <a href="http://code.google.com/p/google-gson/">Gson</a> as JSON backends</li>
+<li>Full XML namespace support</li>
+<li>Start JSON arrays via XML processing instruction</li>
+<li>Memory efficient, even for very large documents</li>
+<li>It&#8217;s pretty fast…</li>
+</ul>
 
-    <h2>Authors</h2>
-<p>Christoph Beck<br/><br/>      </p>
-    <h2>Download</h2>
-    <p>
-      You can download build artifacts the <a href="maven/">maven repositories</a>.
-    </a>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/beckchr/staxon/zipball/master">zip</a> or
-      <a href="http://github.com/beckchr/staxon/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/beckchr/staxon</pre>
-    </p>
+<p>StAXON provides implementations of <code>javax.xml.stream.XMLStreamReader</code> and  <code>javax.xml.stream.XMLStreamWriter</code>.</p>
 
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/beckchr/staxon">beckchr/staxon</a>
-    </div>
+<p>The XML-to-JSON [Mapping Convention](https://github.com/beckchr/staxon/wiki/Mapping Convention) used by StAXON is
+similar to the <a href="http://www.sklar.com/badgerfish/">Badgerfish</a> convention but attempts to avoid needless text-only
+JSON objects to generate a more compact JSON.</p>
 
-  </div>
+<h2 id="basicusage">Basic Usage</h2>
 
-  
+<p>If you know StAX, you&#8217;ll notice that there&#8217;s little new: just obtain an <code>XMLStreamReader</code> or <code>XMLStreamWriter</code>
+from StAXON and you&#8217;re ready to go.</p>
+
+<h3 id="writingjson">Writing JSON</h3>
+
+<p>Create a JSON-based writer:</p>
+
+<pre><code>XMLStreamWriter writer = new JsonXMLOutputFactory().createXMLStreamWriter(System.out);</code></pre>
+
+<p>Write your document:</p>
+
+<pre><code>writer.writeStartDocument();
+writer.writeStartElement("alice");
+writer.writeCharacters("charlie");
+writer.writeEndElement();
+writer.writeEndDocument();
+writer.close();</code></pre>
+
+<p>With an XML-based writer, this would have produced something like</p>
+
+<pre><code>&lt;?xml version="1.0" ?&gt;
+&lt;alice&gt;charlie&lt;/alice&gt;</code></pre>
+
+<p>However, with our JSON-based writer, the output is</p>
+
+<pre><code>{"alice":"charlie"}</code></pre>
+
+<h3 id="readingjson">Reading JSON</h3>
+
+<p>Create a JSON-based reader:</p>
+
+<pre><code>StringReader json = new StringReader("{\"alice\":\"charlie\"}");
+XMLStreamReader reader = new JsonXMLInputFactory().createXMLStreamReader(json);</code></pre>
+
+<p>Read your document:</p>
+
+<pre><code>assert reader.getEventType() == XMLStreamConstants.START_DOCUMENT;
+reader.nextTag(); 
+assert reader.isStartElement() &amp;&amp; "alice".equals(reader.getLocalName());
+reader.next();
+assert reader.hasText() &amp;&amp; "charlie".equals(reader.getText());
+reader.nextTag();
+assert reader.isEndElement();
+reader.next();
+assert reader.getEventType() == XMLStreamConstants.END_DOCUMENT;
+reader.close();</code></pre>
+
+<h2 id="documentation">Documentation</h2>
+
+<p><a href="https://github.com/beckchr/staxon/wiki/">StAXON Wiki</a></p>
+
+<h2 id="download">Download</h2>
+
+<p>You can get StAXON artifacts from our <a href="http://beckchr.github.com/staxon/maven/">maven repositories</a> at github: </p>
+
+<pre><code>&lt;repositories&gt;
+    &lt;repository&gt;
+        &lt;id&gt;staxon&lt;/id&gt;
+        &lt;url&gt;http://beckchr.github.com/staxon/maven/releases&lt;/url&gt;
+    &lt;/repository&gt;
+&lt;/repositories&gt;
+
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;de.odysseus.staxon&lt;/groupId&gt;
+        &lt;artifactId&gt;staxon&lt;/artifactId&gt;
+        &lt;version&gt;0.4.0&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.codehaus.jackson&lt;/groupId&gt;
+        &lt;artifactId&gt;jackson-core-asl&lt;/artifactId&gt;
+        &lt;version&gt;1.8.4&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;</code></pre>
+
+<p>Manually download the latest release: StAXON 0.4.0 (2011/08/10):</p>
+
+<ul>
+<li><a href="http://beckchr.github.com/staxon/maven/releases/de/odysseus/staxon/staxon/0.4.0/staxon-0.4.0.jar">staxon-0.4.0.jar</a></li>
+<li><a href="http://beckchr.github.com/staxon/maven/releases/de/odysseus/staxon/staxon/0.4.0/staxon-0.4.0-sources.jar">staxon-0.4.0-sources.jar</a></li>
+</ul>
+
+<p>Make sure you have the <code>jackson-core</code> (and/or <code>gson</code>) jars on your classpath (<a href="http://wiki.fasterxml.com/JacksonDownload">jackson download</a>).</p>
+
+<h2 id="development">Development</h2>
+
+<p><a href="http://github.com/beckchr/staxon/">Github project</a></p>
+
+<h2 id="license">License</h2>
+
+<p>StAXON is available under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License, Version 2.0</a>.</p>
+
+<p><em>(c) 2011 Odysseus Software</em></p>
 </body>
 </html>
