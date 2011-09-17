@@ -190,6 +190,23 @@ figcaption:hover {background:rgba(0,0,0,.56);color:rgba(255,255,255,1);}
 
 <p><a href="http://beckchr.github.com/staxon/">StAXON</a> lets you read and write JSON using the Java Streaming API for XML.</p>
 
+<p>More specifically, StAXON provides implementations of the</p>
+
+<ul>
+<li>StAX Cursor API (<code>javax.xml.stream.XMLStreamReader</code> and <code>javax.xml.stream.XMLStreamWriter</code>)</li>
+<li>StAX Event API (<code>javax.xml.stream.XMLEventReader</code> and <code>javax.xml.stream.XMLEventWriter</code>)</li>
+</ul>
+
+<p>for JSON.</p>
+
+<p>The availability of a StAX implementation acts as a door opener for JSON to powerful XML related technologies like</p>
+
+<ul>
+<li>XSL transformations (XSLT)</li>
+<li>XML binding API (JAXB)</li>
+<li>XML Schema Definition (XSD)</li>
+</ul>
+
 <h2 id="mainfeatures">Main Features</h2>
 
 <ul>
@@ -200,15 +217,13 @@ figcaption:hover {background:rgba(0,0,0,.56);color:rgba(255,255,255,1);}
 <li>It&#8217;s pretty fast (<a href="https://github.com/beckchr/staxon/wiki/Benchmark">benchmark</a>)…</li>
 </ul>
 
-<p>StAXON provides implementations of <code>javax.xml.stream.XMLStreamReader</code> and <code>javax.xml.stream.XMLStreamWriter</code>.</p>
-
 <p>The XML-to-JSON <a href="https://github.com/beckchr/staxon/wiki/Mapping-Convention">Mapping Convention</a> used by StAXON is
 similar to the <a href="http://www.sklar.com/badgerfish/">Badgerfish</a> convention but attempts to avoid needless text-only
 JSON objects to generate a more compact JSON.</p>
 
 <h2 id="basicusage">Basic Usage</h2>
 
-<p>If you know StAX, you&#8217;ll notice that there&#8217;s little new: just obtain an <code>XMLStreamReader</code> or <code>XMLStreamWriter</code>
+<p>If you know StAX, you&#8217;ll notice that there&#8217;s little new: just obtain a reader or writer
 from StAXON and you&#8217;re ready to go.</p>
 
 <h3 id="writingjson">Writing JSON</h3>
@@ -230,7 +245,7 @@ writer.close();
 
 <p>With an XML-based writer, this would have produced something like</p>
 
-<pre><code>&lt;?xml version=&quot;1.0&quot; ?&gt;
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
 &lt;alice&gt;charlie&lt;/alice&gt;
 </code></pre>
 
@@ -280,7 +295,7 @@ reader.close();
     &lt;dependency&gt;
         &lt;groupId&gt;de.odysseus.staxon&lt;/groupId&gt;
         &lt;artifactId&gt;staxon&lt;/artifactId&gt;
-        &lt;version&gt;0.5.0&lt;/version&gt;
+        &lt;version&gt;0.6.0&lt;/version&gt;
     &lt;/dependency&gt;
     &lt;dependency&gt;
         &lt;groupId&gt;org.codehaus.jackson&lt;/groupId&gt;
@@ -290,11 +305,11 @@ reader.close();
 &lt;/dependencies&gt;
 </code></pre>
 
-<p>Manually download the latest release: StAXON 0.5.0 (2011/08/26):</p>
+<p>Manually download the latest release: StAXON 0.6.0 (2011/09/16):</p>
 
 <ul>
-<li><a href="http://beckchr.github.com/staxon/maven/releases/de/odysseus/staxon/staxon/0.5.0/staxon-0.5.0.jar">staxon&#8211;0.5.0.jar</a></li>
-<li><a href="http://beckchr.github.com/staxon/maven/releases/de/odysseus/staxon/staxon/0.5.0/staxon-0.5.0-sources.jar">staxon&#8211;0.5.0-sources.jar</a></li>
+<li><a href="http://beckchr.github.com/staxon/maven/releases/de/odysseus/staxon/staxon/0.6.0/staxon-0.6.0.jar">staxon&#8211;0.6.0.jar</a></li>
+<li><a href="http://beckchr.github.com/staxon/maven/releases/de/odysseus/staxon/staxon/0.6.0/staxon-0.6.0-sources.jar">staxon&#8211;0.6.0-sources.jar</a></li>
 </ul>
 
 <p>Make sure you have the <code>jackson-core</code> (and/or <code>gson</code>) jars on your classpath (<a href="http://wiki.fasterxml.com/JacksonDownload">jackson download</a>).</p>
