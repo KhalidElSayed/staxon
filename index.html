@@ -371,6 +371,7 @@ table tr:nth-child(even),table td:nth-child(even)
 <ul>
 <li>Supports <a href="http://jackson.codehaus.org/">Jackson</a> and <a href="http://code.google.com/p/google-gson/">Gson</a> as JSON streaming backends</li>
 <li>Full XML namespace support</li>
+<li>Support for JAXB and JAX-RS</li>
 <li>Start JSON arrays via XML processing instruction</li>
 <li>Memory efficient, even for very large documents</li>
 <li>It&#8217;s pretty fast (<a href="https://github.com/beckchr/staxon/wiki/Benchmark">benchmark</a>)…</li>
@@ -447,6 +448,7 @@ reader.close();
 <li><code>staxon</code> - core library, containing a default JSON streaming backend (required)</li>
 <li><code>staxon-gson</code> - streaming backend for <a href="http://code.google.com/p/google-gson/">Gson</a> JSON processor (optional)</li>
 <li><code>staxon-jackson</code> - streaming backend for <a href="http://jackson.codehaus.org/">Jackson</a> JSON processor (optional)</li>
+<li><code>staxon-jaxrs</code> - JAX-RS support, produce/consume JSON from/to JAXB-annotated classes (optional)</li>
 </ul>
 
 <p>You <em>must</em> have the StAXON core library on your classpath. Additionally, you <em>may</em> choose to use the Gson <em>or</em> the
@@ -461,21 +463,21 @@ recommended to choose one of those as backend.</p>
     &lt;dependency&gt;
         &lt;groupId&gt;de.odysseus.staxon&lt;/groupId&gt;
         &lt;artifactId&gt;staxon&lt;/artifactId&gt;
-        &lt;version&gt;0.9.1&lt;/version&gt;
+        &lt;version&gt;0.9.2&lt;/version&gt;
     &lt;/dependency&gt;
 
     &lt;!-- or, to use the Jackson streaming backend --&gt;
     &lt;dependency&gt;
         &lt;groupId&gt;de.odysseus.staxon&lt;/groupId&gt;
         &lt;artifactId&gt;staxon-jackson&lt;/artifactId&gt;
-        &lt;version&gt;0.9.1&lt;/version&gt;
+        &lt;version&gt;0.9.2&lt;/version&gt;
     &lt;/dependency&gt;
 
     &lt;!-- or, to use the Gson streaming backend
     &lt;dependency&gt;
         &lt;groupId&gt;de.odysseus.staxon&lt;/groupId&gt;
         &lt;artifactId&gt;staxon-gson&lt;/artifactId&gt;
-        &lt;version&gt;0.9.1&lt;/version&gt;
+        &lt;version&gt;0.9.2&lt;/version&gt;
     &lt;/dependency&gt;
     --&gt;     
 &lt;/dependencies&gt;
@@ -483,27 +485,34 @@ recommended to choose one of those as backend.</p>
 
 <h2 id="downloads">Downloads</h2>
 
-<p>Manually download the latest release: StAXON 0.9.1 (2011/10/29):</p>
+<p>Manually download the latest release: StAXON 0.9.2 (2011/18/11):</p>
 
 <p>Core library:</p>
 
 <ul>
-<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon/0.9.1/staxon-0.9.1.jar">staxon&#8211;0.9.1.jar</a></li>
-<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon/0.9.1//staxon-0.9.1-sources.jar">staxon&#8211;0.9.1-sources.jar</a></li>
+<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon/0.9.2/staxon-0.9.2.jar">staxon&#8211;0.9.2.jar</a></li>
+<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon/0.9.2//staxon-0.9.2-sources.jar">staxon&#8211;0.9.2-sources.jar</a></li>
 </ul>
 
 <p>Gson backend:</p>
 
 <ul>
-<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-gson/0.9.1/staxon-gson-0.9.1.jar">staxon-gson&#8211;0.9.1.jar</a></li>
-<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-gson/0.9.1/staxon-gson-0.9.1-sources.jar">staxon-gson&#8211;0.9.1-sources.jar</a></li>
+<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-gson/0.9.2/staxon-gson-0.9.2.jar">staxon-gson&#8211;0.9.2.jar</a></li>
+<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-gson/0.9.2/staxon-gson-0.9.2-sources.jar">staxon-gson&#8211;0.9.2-sources.jar</a></li>
 </ul>
 
 <p>Jackson backend:</p>
 
 <ul>
-<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-jackson/0.9.1/staxon-jackson-0.9.1.jar">staxon-jackson&#8211;0.9.1.jar</a></li>
-<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-jackson/0.9.1/staxon-jackson-0.9.1-sources.jar">staxon-jackson&#8211;0.9.1-sources.jar</a></li>
+<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-jackson/0.9.2/staxon-jackson-0.9.2.jar">staxon-jackson&#8211;0.9.2.jar</a></li>
+<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-jackson/0.9.2/staxon-jackson-0.9.2-sources.jar">staxon-jackson&#8211;0.9.2-sources.jar</a></li>
+</ul>
+
+<p>JAX-RS support:</p>
+
+<ul>
+<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-jaxrs/0.9.2/staxon-jaxrs-0.9.2.jar">staxon-jaxrs&#8211;0.9.2.jar</a></li>
+<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-jaxrs/0.9.2/staxon-jaxrs-0.9.2-sources.jar">staxon-jaxrs&#8211;0.9.2-sources.jar</a></li>
 </ul>
 
 <h2 id="development">Development</h2>
