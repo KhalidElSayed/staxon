@@ -359,6 +359,7 @@ table tr:nth-child(even),table td:nth-child(even)
 <ul>
 <li>StAX Cursor API (<code>XMLStreamReader</code> and <code>XMLStreamWriter</code>)</li>
 <li>StAX Event API (<code>XMLEventReader</code> and <code>XMLEventWriter</code>)</li>
+<li>StAX Factory API (<code>XMLInputFactory</code> and <code>XMLOutputFactory</code>)</li>
 </ul>
 
 <p>for JSON.</p>
@@ -371,7 +372,7 @@ table tr:nth-child(even),table td:nth-child(even)
 <li>XML Schema Definition (XSD)</li>
 </ul>
 
-<h2 id="mainfeatures">Main Features</h2>
+<h2 id="features">Features</h2>
 
 <ul>
 <li>Supports <a href="http://jackson.codehaus.org/">Jackson</a> and <a href="http://code.google.com/p/google-gson/">Gson</a> as JSON streaming backends</li>
@@ -386,143 +387,18 @@ table tr:nth-child(even),table td:nth-child(even)
 similar to the <a href="http://www.sklar.com/badgerfish/">Badgerfish</a> convention but attempts to avoid needless text-only
 JSON objects to generate a more compact JSON.</p>
 
-<h2 id="basicusage">Basic Usage</h2>
-
-<p>If you know StAX, you&#8217;ll notice that there&#8217;s little new: just obtain a reader or writer
-from StAXON and you&#8217;re ready to go.</p>
-
-<h3 id="writingjson">Writing JSON</h3>
-
-<p>Create a JSON-based writer:</p>
-
-<pre><code>XMLStreamWriter writer = new JsonXMLOutputFactory().createXMLStreamWriter(System.out);
-</code></pre>
-
-<p>Write your document:</p>
-
-<pre><code>writer.writeStartDocument();
-writer.writeStartElement(&quot;alice&quot;);
-writer.writeCharacters(&quot;charlie&quot;);
-writer.writeEndElement();
-writer.writeEndDocument();
-writer.close();
-</code></pre>
-
-<p>With an XML-based writer, this would have produced something like</p>
-
-<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
-&lt;alice&gt;charlie&lt;/alice&gt;
-</code></pre>
-
-<p>However, with our JSON-based writer, the output is</p>
-
-<pre><code>{&quot;alice&quot;:&quot;charlie&quot;}
-</code></pre>
-
-<h3 id="readingjson">Reading JSON</h3>
-
-<p>Create a JSON-based reader:</p>
-
-<pre><code>StringReader json = new StringReader(&quot;{\&quot;alice\&quot;:\&quot;charlie\&quot;}&quot;);
-XMLStreamReader reader = new JsonXMLInputFactory().createXMLStreamReader(json);
-</code></pre>
-
-<p>Read your document:</p>
-
-<pre><code>assert reader.getEventType() == XMLStreamConstants.START_DOCUMENT;
-reader.nextTag(); 
-assert reader.isStartElement() &amp;&amp; &quot;alice&quot;.equals(reader.getLocalName());
-reader.next();
-assert reader.hasText() &amp;&amp; &quot;charlie&quot;.equals(reader.getText());
-reader.nextTag();
-assert reader.isEndElement();
-reader.next();
-assert reader.getEventType() == XMLStreamConstants.END_DOCUMENT;
-reader.close();
-</code></pre>
-
 <h2 id="documentation">Documentation</h2>
 
-<p><a href="https://github.com/beckchr/staxon/wiki/">StAXON Wiki</a></p>
+<p>Check the <a href="https://github.com/beckchr/staxon/wiki/Getting-Started">Getting Started</a> guide first.
+More documentation is available from the <a href="https://github.com/beckchr/staxon/wiki/">StAXON Wiki</a>.</p>
 
-<h2 id="modules">Modules</h2>
+<h2 id="downloads">Downloads</h2>
 
-<p>StAXON consists of the following modules:</p>
-
-<ul>
-<li><code>staxon</code> - core library, containing a default JSON streaming backend (required)</li>
-<li><code>staxon-gson</code> - streaming backend for <a href="http://code.google.com/p/google-gson/">Gson</a> JSON processor (optional)</li>
-<li><code>staxon-jackson</code> - streaming backend for <a href="http://jackson.codehaus.org/">Jackson</a> JSON processor (optional)</li>
-<li><code>staxon-jaxrs</code> - JAX-RS support, produce/consume JSON from/to JAXB-annotated classes (optional)</li>
-</ul>
-
-<p>You <em>must</em> have the StAXON core library on your classpath. Additionally, you <em>may</em> choose to use the Gson <em>or</em> the
-Jackson streaming backend. However, unless you want to avoid a dependency to an external JSON processor, it is
-recommended to choose one of those as backend.</p>
-
-<h2 id="maven">Maven</h2>
-
-<p>Releases are synced to Maven Central. Add a dependency to StAXON in your POM file like this:</p>
-
-<pre><code>&lt;dependencies&gt;
-    &lt;dependency&gt;
-        &lt;groupId&gt;de.odysseus.staxon&lt;/groupId&gt;
-        &lt;artifactId&gt;staxon&lt;/artifactId&gt;
-        &lt;version&gt;0.9.3&lt;/version&gt;
-    &lt;/dependency&gt;
-
-    &lt;!-- or, to use the Jackson streaming backend --&gt;
-    &lt;dependency&gt;
-        &lt;groupId&gt;de.odysseus.staxon&lt;/groupId&gt;
-        &lt;artifactId&gt;staxon-jackson&lt;/artifactId&gt;
-        &lt;version&gt;0.9.3&lt;/version&gt;
-    &lt;/dependency&gt;
-
-    &lt;!-- or, to use the Gson streaming backend
-    &lt;dependency&gt;
-        &lt;groupId&gt;de.odysseus.staxon&lt;/groupId&gt;
-        &lt;artifactId&gt;staxon-gson&lt;/artifactId&gt;
-        &lt;version&gt;0.9.3&lt;/version&gt;
-    &lt;/dependency&gt;
-    --&gt;     
-&lt;/dependencies&gt;
-</code></pre>
-
-<h2 id="download">Download</h2>
-
-<p>Latest release: StAXON 0.9.3 (2011/12/02, <a href="https://github.com/beckchr/staxon/wiki/Changelog">notes</a>):</p>
-
-<p>Core library:</p>
-
-<ul>
-<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon/0.9.3/staxon-0.9.3.jar">staxon&#8211;0.9.3.jar</a></li>
-<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon/0.9.3//staxon-0.9.3-sources.jar">staxon&#8211;0.9.3-sources.jar</a></li>
-</ul>
-
-<p>Gson backend:</p>
-
-<ul>
-<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-gson/0.9.3/staxon-gson-0.9.3.jar">staxon-gson&#8211;0.9.3.jar</a></li>
-<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-gson/0.9.3/staxon-gson-0.9.3-sources.jar">staxon-gson&#8211;0.9.3-sources.jar</a></li>
-</ul>
-
-<p>Jackson backend:</p>
-
-<ul>
-<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-jackson/0.9.3/staxon-jackson-0.9.3.jar">staxon-jackson&#8211;0.9.3.jar</a></li>
-<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-jackson/0.9.3/staxon-jackson-0.9.3-sources.jar">staxon-jackson&#8211;0.9.3-sources.jar</a></li>
-</ul>
-
-<p>JAX-RS support:</p>
-
-<ul>
-<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-jaxrs/0.9.3/staxon-jaxrs-0.9.3.jar">staxon-jaxrs&#8211;0.9.3.jar</a></li>
-<li><a href="http://repo1.maven.org/maven2/de/odysseus/staxon/staxon-jaxrs/0.9.3/staxon-jaxrs-0.9.3-sources.jar">staxon-jaxrs&#8211;0.9.3-sources.jar</a></li>
-</ul>
+<p>The <a href="https://github.com/beckchr/staxon/wiki/Downloads">Downloads</a> page provides Maven instructions and individual download links.</p>
 
 <h2 id="development">Development</h2>
 
-<p><a href="http://github.com/beckchr/staxon/">Github project</a></p>
+<p>Visit the <a href="http://github.com/beckchr/staxon/">Github project</a>.</p>
 
 <h2 id="license">License</h2>
 
