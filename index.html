@@ -73,6 +73,14 @@ h4
     margin:1.1667em 0
 }
 
+h5
+{
+    color:#111;
+    font-size:1.15em;
+    line-height:1.3em;
+    margin:1.3em 0
+}
+
 h6
 {
     font-size:1em;
@@ -83,7 +91,7 @@ h6
 body,p,td,div
 {
     color:#111;
-    font-family:Helvetica,Arial,sans-serif;
+    font-family:"Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
     word-wrap:break-word
 }
 
@@ -104,12 +112,12 @@ a:hover
     color:#3593d9
 }
 
-h2 em
+/*h2 em
 {
     color:#111;
     padding-left:10px;
     text-shadow:0 1px 0 #FFF
-}
+}*/
 
 .footnote
 {
@@ -307,7 +315,11 @@ table tr:nth-child(even),table td:nth-child(even)
     {
         overflow:auto
     }
-    
+    img, pre, blockquote, table, figure {
+        page-break-inside: avoid
+    }
+    .footnotes { page-break-before: always }
+
     #wrapper
     {
         background:#fff;
@@ -320,10 +332,13 @@ table tr:nth-child(even),table td:nth-child(even)
 }
 
 @media screen {
+    ::selection { background:rgba(157, 193, 200,.5)}
     .inverted {
         background:#333
     }
-    
+    .inverted hr {
+        border-color: #555 !important;
+    }
     .inverted p,.inverted td,.inverted li,.inverted h1,.inverted h2,.inverted h3,.inverted h4,.inverted h5,.inverted h6,.inverted pre,.inverted code,.inverted th
     {
         color:#eee!important
@@ -352,40 +367,26 @@ table tr:nth-child(even),table td:nth-child(even)
   <div id="wrapper">
       <h1 id="staxon-jsonviastax">StAXON - JSON via StAX</h1>
 
-<p><a href="http://beckchr.github.com/staxon/">StAXON</a> lets you read and write JSON using the Java Streaming API for XML (<code>javax.xml.stream</code>).</p>
-
-<p>More specifically, StAXON provides implementations of the</p>
-
-<ul>
-<li>StAX Cursor API (<code>XMLStreamReader</code> and <code>XMLStreamWriter</code>)</li>
-<li>StAX Event API (<code>XMLEventReader</code> and <code>XMLEventWriter</code>)</li>
-<li>StAX Factory API (<code>XMLInputFactory</code> and <code>XMLOutputFactory</code>)</li>
-</ul>
-
-<p>for JSON.</p>
-
-<p>The availability of a StAX implementation acts as a door opener for JSON to powerful XML related technologies like</p>
+<p><a href="http://beckchr.github.com/staxon/">StAXON</a> lets you read and write JSON using the Java Streaming API
+for XML (<code>javax.xml.stream</code>). StAXON acts as a door opener for JSON to powerful XML related technologies like</p>
 
 <ul>
 <li>XSL transformations (XSLT)</li>
 <li>XML binding API (JAXB)</li>
 <li>XML Schema Definition (XSD)</li>
+<li>XPath, XQuery, &#8230;</li>
 </ul>
 
 <h2 id="features">Features</h2>
 
 <ul>
-<li>Supports <a href="http://jackson.codehaus.org/">Jackson</a> and <a href="http://code.google.com/p/google-gson/">Gson</a> as JSON streaming backends</li>
-<li>Full XML namespace support</li>
 <li>Support for JAXB and JAX-RS</li>
-<li>Start JSON arrays via XML processing instruction</li>
+<li>Trigger JSON arrays via XML processing instruction</li>
+<li>Full XML namespace support</li>
+<li>Support <a href="http://jackson.codehaus.org/">Jackson</a> and <a href="http://code.google.com/p/google-gson/">Gson</a> as JSON streaming backends</li>
 <li>Memory efficient, even for very large documents</li>
-<li>It&#8217;s pretty fast (<a href="https://github.com/beckchr/staxon/wiki/Benchmark">benchmark</a>)…</li>
+<li>It&#8217;s pretty fast (<a href="https://github.com/beckchr/staxon/wiki/Benchmark">benchmark</a>)&#8230;</li>
 </ul>
-
-<p>The XML-to-JSON <a href="https://github.com/beckchr/staxon/wiki/Mapping-Convention">Mapping Convention</a> used by StAXON is
-similar to the <a href="http://www.sklar.com/badgerfish/">Badgerfish</a> convention but attempts to avoid needless text-only
-JSON objects to generate a more compact JSON.</p>
 
 <h2 id="documentation">Documentation</h2>
 
